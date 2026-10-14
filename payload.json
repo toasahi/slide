@@ -1,0 +1,73 @@
+
+{
+  "routing_key": "YOUR_PAGERDUTY_INTEGRATION_KEY",
+  "event_action": "trigger",
+  "dedup_key": "production:production-eks:payment:payment-api:http_5xx_error_rate",
+
+  "client": "internal-alert-gateway",
+  "client_url": "https://alerts.example.com",
+
+  "payload": {
+    "summary": "[PROD][CRITICAL] payment-api HTTP 5xx rate > 5%",
+    "source": "production-eks/payment/payment-api",
+    "severity": "critical",
+    "timestamp": "2026-10-15T01:00:00Z",
+    "component": "payment-api",
+    "group": "production-eks/payment",
+    "class": "http_5xx_error_rate",
+
+    "custom_details": {
+      "schema_version": "1.0",
+      "monitoring_source": "prometheus",
+      "description": "HTTP 5xx error rate exceeded 5% for 5 minutes",
+
+      "correlation_key": "production/production-eks/payment/payment-api",
+
+      "resource": {
+        "environment": "production",
+        "cloud_provider": "aws",
+        "region": "ap-northeast-1",
+        "cluster": "production-eks",
+        "namespace": "payment",
+        "service": "payment-api",
+        "resource_type": "k8s_deployment",
+        "resource_id": "payment-api",
+        "owner_team": "payment-team"
+      },
+
+      "condition": {
+        "metric_name": "http_5xx_error_rate",
+        "observed_value": 8.5,
+        "threshold": 5,
+        "operator": ">",
+        "unit": "percent",
+        "evaluation_window": "5m"
+      },
+
+      "timestamps": {
+        "starts_at": "2026-10-15T01:00:00Z",
+        "received_at": "2026-10-15T01:00:12Z"
+      },
+
+      "labels": {
+        "team": "payment",
+        "tier": "backend"
+      }
+    }
+  },
+
+  "links": [
+    {
+      "href": "https://monitoring.example.com/alerts/payment-api",
+      "text": "Source Alert"
+    },
+    {
+      "href": "https://grafana.example.com/d/payment",
+      "text": "Metrics Dashboard"
+    },
+    {
+      "href": "https://docs.example.com/runbooks/http-5xx",
+      "text": "Runbook"
+    }
+  ]
+}
